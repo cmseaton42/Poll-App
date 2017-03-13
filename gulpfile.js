@@ -11,47 +11,39 @@ const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const util = require('gulp-util');
 const rename = require('gulp-rename');
+const chalk = require('chalk');
 
 // we'd need a slight delay to reload browsers
 // connected to browser-sync after restarting nodemon
-let BROWSER_SYNC_RELOAD_DELAY = 1000;
 let DEV_MODE = process.env.DEV_MODE
 
 gulp.task('nodemon', function (cb) {
-    let called = false;
+    var called = false;
     return nodemon({
-
-        // nodemon our expressjs server
         script: 'app.js',
-
-        // watch core server file(s) that require server restart on change
-        watch: ['app.js']
+        ignore: [
+            'gulpfile.js',
+            'node_modules/'
+        ]
     })
-        .on('start', function onStart() {
-            // ensure start only got called once
-            if (!called) { cb(); }
-            called = true;
+        .on('start', function () {
+            if (!called) {
+                called = true;
+                cb();
+            }
         })
-        .on('restart', function onRestart() {
-            // reload connected browsers after a slight delay
-            setTimeout(function reload() {
-                browserSync.reload({
-                    stream: false
-                });
-            }, BROWSER_SYNC_RELOAD_DELAY);
+        .on('restart', function () {
+            setTimeout(function () {
+                browserSync.reload({ stream: false });
+            }, 1000);
         });
 });
 
 gulp.task('browser-sync', ['nodemon'], function () {
-
-    // for more browser-sync config options: http://www.browsersync.io/docs/options/
     browserSync.init({
-
-        // informs browser-sync to proxy our expressjs app which would run at the following location
-        proxy: 'http://localhost:8000',
-
-        // informs browser-sync to use the following port for the proxied app
-        port: 8080,
+        proxy: 'localhost:4000',
+        port: 5000,
+        notify: true
     });
 });
 
@@ -63,9 +55,10 @@ gulp.task('browser-sync', ['nodemon'], function () {
 // });
 
 gulp.task('sass', function () {
+    console.log(chalk.bgMagenta.white('Sassifying...'));
     return gulp.src('public/sass/**/*.sass')
         .pipe(sassify())
-        .pipe(prefix('last 10 version'))
+        .pipe(prefix('last 2 version'))
         .pipe(DEV_MODE ? minify() : util.noop())
         .pipe(rename(function (path) { path.extname = '.min.css'; }))
         .pipe(gulp.dest('public/css'))
@@ -73,6 +66,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('vendor-css', function () {
+    console.log(chalk.bgMagenta.white('Prepping Vendor Files...'));
     return gulp.src('vendor/css/**/*.css')
         .pipe(minify())
         .pipe(concat('vendor.min.css'))
@@ -86,13 +80,16 @@ gulp.task('vendor-css', function () {
 // })
 
 gulp.task('bs-reload', function () {
-    browserSync.reload();
+    setTimeout(function() {
+        browserSync.reload();
+    }, 1000);
+    
 });
 
 
 gulp.task('default', ['vendor-css', 'sass', 'browser-sync'], function () {
     //gulp.watch('public/**/*.js', ['js', browserSync.reload]);
     gulp.watch('vendor/css/**/*.css', ['vendor-css']);
-    gulp.watch('public/sass/**/*.sass', ['sass']);
+    gulp.watch('public/sass/**/*.sass', ['sass', 'bs-reload']);
     gulp.watch('app/views/**/*.pug', ['bs-reload']);
 });

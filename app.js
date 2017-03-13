@@ -2,11 +2,23 @@
 require('dotenv').config();
 const chalk = require('chalk');
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const passport = require('passport');
 
-let app = express();
+// Initailize app
+const app = express();
 
+// Configuration
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'app/views'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Middleware
 app.get('/', (req, res) => {
-    res.send('youre up running');
+    res.render('index');
 });
 
 app.listen(process.env.PORT, () => {
