@@ -5,6 +5,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
 
 // Initailize app
 const app = express();

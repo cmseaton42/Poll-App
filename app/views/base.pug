@@ -5,10 +5,18 @@ html
         link(rel='icon', href='/images/favicon.png' type='image/x-icon')
         link(rel='stylesheet' href='/css/vendor.min.css')
         link(rel='stylesheet' href='/css/navbar.min.css')
+        script(src='/js/jquery-3.1.1.min.js')
+        script(src='/js/tether.min.js')
+        script(src='/js/bootstrap.min.js')
         
         //- Custom links
         block links
     body
         include navbar.pug
+
+        block content
+
+
+       
 
         

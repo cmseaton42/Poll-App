@@ -66,7 +66,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('vendor-css', function () {
-    console.log(chalk.bgMagenta.white('Prepping Vendor Files...'));
+    console.log(chalk.bgMagenta.white('Prepping Vendor CSS Files...'));
     return gulp.src('vendor/css/**/*.css')
         .pipe(minify())
         .pipe(concat('vendor.min.css'))
@@ -80,10 +80,10 @@ gulp.task('vendor-css', function () {
 // })
 
 gulp.task('bs-reload', function () {
-    setTimeout(function() {
+    setTimeout(function () {
         browserSync.reload();
     }, 1000);
-    
+
 });
 
 
