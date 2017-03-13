@@ -1,0 +1,33 @@
+extends ../base.pug
+
+block links
+    link(rel='stylesheet' href='/css/users/register.min.css')
+
+block content
+  .container.d-flex.w-100.align-items-center.justify-content-center
+    form
+        .form-group.row
+            label.col-sm-4.col-lg-2.col-form-label(for='f_name') First Name
+            .col-sm-8.col-lg-10
+                input#f_name.form-control(type='text', placeholder='John')
+
+        .form-group.row
+            label.col-sm-4.col-lg-2.col-form-label(for='l_name') Last Name
+            .col-sm-8.col-lg-10
+                input#l_name.form-control(type='text', placeholder='Doe')
+        
+        .form-group.row
+            label.col-sm-4.col-lg-2.col-form-label(for='Email') Email
+            .col-sm-8.col-lg-10
+                input#Email.form-control(type='email', placeholder='JDoe@sample.com')
+
+        .form-group.row
+            label.col-sm-4.col-lg-2.col-form-label(for='username') Username
+            .col-sm-8.col-lg-10
+                input#username.form-control(type='text', placeholder='')
+
+        .form-group.row
+            label.col-sm-4.col-lg-2.col-form-label(for='password') Password
+            .col-sm-8.col-lg-10
+                input#password.form-control(type='password', placeholder='')
+        
