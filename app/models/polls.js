@@ -7,10 +7,12 @@ mongoose.Promise = Promise;
 
 let pollSchema = Schema({
     title: { type: String, unique: true },
+    url: { type: String, unique: true },
     options: [{
         text: String,
         count: { type: Number, default: 0 }
     }],
+    user_votes: [String],
     latest_timestamp: { type: Date, default: Date.now },
     timestamp: { type: Date, default: Date.now },
 });

@@ -1,0 +1,21 @@
+
+extends ../base.pug
+
+block links
+    link(rel='stylesheet' href='/css/polls/poll.min.css')
+
+block content
+    .container.d-flex.align-items-center
+        .jumbotron-fluid.text-center
+            h2.text-primary.display-4 #{poll.title}
+            .chart-container
+            hr.my-4
+            //- Put Chart Here
+            hr.my-4
+            form(action='/polls/' + poll.url, method='POST')
+                .form-group
+                    .col-sm-12.col-lg-12
+                        select#selection.form-control(type='text', placeholder='', name='selection')
+                            each option in poll.options
+                                option #{option.text}
+                button.btn.btn-primary(type='submit') Cast Vote

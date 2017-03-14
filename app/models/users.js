@@ -12,6 +12,7 @@ let userSchema = Schema({
     email: String,
     username: { type: String, unique: true},
     password: String,
+    polls: [String],
     timestamp: { type: Date, default: Date.now }
 });
 
