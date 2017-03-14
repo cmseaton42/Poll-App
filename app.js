@@ -21,7 +21,7 @@ const buildPassport = require('./app/config/authorization');
 
 // Initailize app
 const app = express();
-buildPassport(passport);
+
 
 // Configuration
 mongoose.connect(process.env.DB_URI);
@@ -49,25 +49,27 @@ app.use(validator({
     };
   }
 }));
-app.use(session({ secret: 'Shhhhhhhh, Its a Secret Bro', resave: false, saveUninitialized: true }));
+app.use(session({ secret: 'Shhhhhhhh, Its a Secret Bro', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
+app.use(function(req, res, next){
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
     next();
 });
 
-// Dynamic Initializations
-loadControllers(passport, app);
-
 // Send to Landing/Home Page
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {
+        user: req.user
+    });
 })
+
+// Dynamic Initializations
+buildPassport(passport);
+loadControllers(passport, app);
 
 app.listen(process.env.PORT, () => {
     console.log(

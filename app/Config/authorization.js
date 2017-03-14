@@ -5,7 +5,7 @@ const User = require('../models/users');
 
 module.exports = (passport) => {
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, user._id);
     });
 
     passport.deserializeUser(function (id, done) {
@@ -22,7 +22,7 @@ module.exports = (passport) => {
                 if (err) return done(err);
 
                 if (user) {
-                    return done(null, false, { errors: 'User Already Exists'});
+                    return done(null, false, req.flash('error_messages','Username Already Exists'));
                 } else {
                    newUser = new User({
                        f_name: req.body.f_name,
@@ -36,24 +36,26 @@ module.exports = (passport) => {
                    newUser.save((err) => {
                         if (err) throw err;
 
-                        return done(null, newUser);
+                        return done(null, newUser, req.flash('success_messages', 'You\'re All Set! Please Proceed to Login'));
                    });
                 }
             });
         }
     ));
 
-    passport.use('local-login', new localStrategy(
-        (username, password, done) => {
+    passport.use('local-login', new localStrategy({
+            passReqToCallback: true
+        },
+        (req, username, password, done) => {
             User.findOne({ 'username': username }, (err, user) => {
                 if (err) return done(err);
 
                 if (!user) {
-                    return done(null, false, { message: 'No User <' + username + '> was Found.' })
+                    return done(null, false, req.flash('error_messages', 'No User <' + username + '> was Found' ));
                 }
 
                 if (!user.validPassword(password)) {
-                    return done(null, false, { message: 'Incorrect password.' });
+                    return done(null, false, req.flash('error_messages', 'Password is Incorrect' ));
                 }
 
                 return done(null, user);

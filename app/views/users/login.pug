@@ -1,0 +1,35 @@
+extends ../base.pug
+
+block links
+    link(rel='stylesheet' href='/css/users/login.min.css')
+
+block content
+  .container-fluid.d-flex.flex-column.w-100.align-items-center.justify-content-center
+
+    form.col-sm-12.col-lg-6(action='/login', method='POST')
+        h1.text-primary Login
+        hr
+
+        if success_messages.length > 0
+            .alert.alert-success #[strong Success!] #{success_messages}
+
+        if error_messages.length > 0
+            .alert.alert-danger #[strong Oops!] #{error_messages}
+
+        .form-group.row
+            label.col-sm-3.col-lg-3.col-form-label(for='username') Username
+            .col-sm-9.col-lg-9
+                input#username.form-control(type='text', placeholder='', name='username')
+
+        .form-group.row
+            label.col-sm-3.col-lg-3.col-form-label(for='password') Password
+            .col-sm-9.col-lg-9
+                input#password.form-control(type='password', placeholder='', name='password')
+
+        hr
+        
+        .form-group.row.d-flex.justify-content-center
+            button.col-sm-6.col-lg-4.btn.btn-primary(type='submit') Login
+    
+
+        

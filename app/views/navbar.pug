@@ -3,16 +3,26 @@ nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.sticky-top
     span.navbar-toggler-icon
   
   .navbar-brand 
-    img(src='images/favicon.png' style='height: 40px; width: 50px; padding-right: 10px')
+    img(src='/images/favicon.png' style='height: 40px; width: 50px; padding-right: 10px')
     a.navbar-brand.navbar-custom-font(href='/') Vote-ify
 
   #navbar.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
       li.nav-item
-        a.nav-link(href='/register') Register
-      li.nav-item
-        a.nav-link(href='#') Login
-      li.nav-item
-        a.nav-link(href='#') Logout
-      li.nav-item 
-        a.nav-link(href='#') Profile
+          a.nav-link(href='/polls') Polls
+      if user
+        li.nav-item
+          a.nav-link(href='/logout') Logout
+        li.nav-item 
+          a.nav-link(href='/profile') Profile  
+      else
+        li.nav-item
+          a.nav-link(href='/register') Register
+        li.nav-item
+          a.nav-link(href='/login') Login
+          
+
+      if user
+        a.btn.btn-secondary.text-primary#btnAddPoll(href='/polls/new')
+          i.fa.fa-plus
+      

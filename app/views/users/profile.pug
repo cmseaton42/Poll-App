@@ -1,0 +1,23 @@
+extends ../base.pug
+
+block links
+    link(rel='stylesheet' href='/css/users/login.min.css')
+
+block content
+  .container-fluid.d-flex.flex-column.w-100.align-items-center.justify-content-center
+
+    .col-sm-12.col-lg-6
+        if user
+            h1.text-primary #{user.username}
+        else
+            h1.text-primary Profile
+        hr
+
+        if success_messages.length > 0
+            .alert.alert-success #[strong Success!] #{success_messages}
+
+        if error_messages.length > 0
+            .alert.alert-danger #[strong Oops!] #{error_messages}
+
+        hr
+        

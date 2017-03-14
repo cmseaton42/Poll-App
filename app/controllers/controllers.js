@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const users = require('./users');
+const polls = require('./polls');
 
 module.exports = (passport, app) => {
     // fs.readdirSync('./controllers').forEach(function (file) {
@@ -11,5 +12,6 @@ module.exports = (passport, app) => {
     // });
 
     users.controller(passport, app);
+    polls.controller(passport, app);
 
 }

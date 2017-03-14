@@ -15,8 +15,6 @@ module.exports = (req, res, next) => {
     req.checkBody('password', 'Password is Required').notEmpty();
     req.checkBody('password_2', 'Passwords Must Match').equals(req.body.password);
 
-    console.log(fName);
-
     const errors = req.validationErrors();
 
     if (errors) {
