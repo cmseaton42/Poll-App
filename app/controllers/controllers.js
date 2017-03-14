@@ -2,7 +2,7 @@
 const fs = require('fs');
 const users = require('./users');
 
-module.exports = (app) => {
+module.exports = (passport, app) => {
     // fs.readdirSync('./controllers').forEach(function (file) {
     //     if (file.substr(-3) == '.js') {
     //         route = require('./controllers/' + file);
@@ -10,6 +10,6 @@ module.exports = (app) => {
     //     }
     // });
 
-    users.controller(app);
+    users.controller(passport, app);
 
 }

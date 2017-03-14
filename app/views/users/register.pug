@@ -4,30 +4,48 @@ block links
     link(rel='stylesheet' href='/css/users/register.min.css')
 
 block content
-  .container.d-flex.w-100.align-items-center.justify-content-center
-    form
-        .form-group.row
-            label.col-sm-4.col-lg-2.col-form-label(for='f_name') First Name
-            .col-sm-8.col-lg-10
-                input#f_name.form-control(type='text', placeholder='John')
+  .container-fluid.d-flex.flex-column.w-100.align-items-center.justify-content-center
+
+    form.col-sm-12.col-lg-6(action='/register', method='POST')
+        h1.text-primary Registration
+        hr
+
+        if errors
+            each err in errors
+                .alert.alert-danger #[strong Not So Fast!] #{err.msg}
 
         .form-group.row
-            label.col-sm-4.col-lg-2.col-form-label(for='l_name') Last Name
-            .col-sm-8.col-lg-10
-                input#l_name.form-control(type='text', placeholder='Doe')
+            label.col-sm-3.col-lg-3.col-form-label(for='f_name') First Name
+            .col-sm-9.col-lg-9
+                input#f_name.form-control(type='text', placeholder='', name='f_name')
+
+        .form-group.row
+            label.col-sm-3.col-lg-3.col-form-label(for='l_name') Last Name
+            .col-sm-9.col-lg-9
+                input#l_name.form-control(type='text', placeholder='', name='l_name')
         
         .form-group.row
-            label.col-sm-4.col-lg-2.col-form-label(for='Email') Email
-            .col-sm-8.col-lg-10
-                input#Email.form-control(type='email', placeholder='JDoe@sample.com')
+            label.col-sm-3.col-lg-3.col-form-label(for='Email') Email
+            .col-sm-9.col-lg-9
+                input#Email.form-control(type='email', placeholder='', name='email')
 
         .form-group.row
-            label.col-sm-4.col-lg-2.col-form-label(for='username') Username
-            .col-sm-8.col-lg-10
-                input#username.form-control(type='text', placeholder='')
+            label.col-sm-3.col-lg-3.col-form-label(for='username') Username
+            .col-sm-9.col-lg-9
+                input#username.form-control(type='text', placeholder='', name='username')
 
         .form-group.row
-            label.col-sm-4.col-lg-2.col-form-label(for='password') Password
-            .col-sm-8.col-lg-10
-                input#password.form-control(type='password', placeholder='')
+            label.col-sm-3.col-lg-3.col-form-label(for='password') Password
+            .col-sm-9.col-lg-9
+                input#password.form-control(type='password', placeholder='', name='password')
+
+        .form-group.row
+            label.col-sm-3.col-lg-3.col-form-label(for='password_2') Verify Password
+            .col-sm-9.col-lg-9
+                input#password_2.form-control(type='password', placeholder='', name='password_2')
+
+        hr
+        
+        .form-group.row.d-flex.justify-content-center
+            button.col-sm-6.col-lg-4.btn.btn-primary(type='submit') Get Registered
         

@@ -4,7 +4,14 @@
 form {
   width: 50%;
   min-width: 320px;
-  margin-top: 40px; }
+  margin-top: 10px; }
 
 label {
   text-align: right; }
+
+h1 {
+  font-size: 50px;
+  text-align: center; }
+
+alert {
+  margin-top: 10px; }

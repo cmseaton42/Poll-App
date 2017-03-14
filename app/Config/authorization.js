@@ -4,36 +4,40 @@ const localStrategy = require('passport-local').Strategy;
 const User = require('../models/users');
 
 module.exports = (passport) => {
-    passport.serializeUser((user, done) => {
+    passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
 
-    passport.deserializeUser((id, done) => {
+    passport.deserializeUser(function (id, done) {
         User.findById(id, function (err, user) {
             done(err, user);
         });
-    })
+    });
 
-    passport.use('local-registration', new localStrategy(
-        (username, password, done) => {
-            User.find().byUsername(username).exec((err, user) => {
+    passport.use('local-registration', new localStrategy({
+            passReqToCallback: true
+        },
+        (req, username, password, done) => {
+            User.findOne({ 'username': username }, (err, user) => {
                 if (err) return done(err);
+
                 if (user) {
-                    return done(nll, false, { message: 'User Exists Already.' })
+                    return done(null, false, { errors: 'User Already Exists'});
                 } else {
-                    let newUser = new User();
+                   newUser = new User({
+                       f_name: req.body.f_name,
+                       l_name: req.body.l_name,
+                       email: req.body.email,
+                       username: req.body.username
+                   });
 
-                    if (password.length < 8) {
-                        return done(nll, false, { message: 'Password Must Contain at 8 Characters.' })
-                    }
+                   newUser.password = newUser.generateHash(req.body.password);
 
-                    newUser.username = username;
-                    newUser.password = newUser.generateHash(password)
-
-                    newUser.save(() => {
+                   newUser.save((err) => {
                         if (err) throw err;
+
                         return done(null, newUser);
-                    });
+                   });
                 }
             });
         }
@@ -41,7 +45,7 @@ module.exports = (passport) => {
 
     passport.use('local-login', new localStrategy(
         (username, password, done) => {
-            User.find().byUsername(username).exec((err, user) => {
+            User.findOne({ 'username': username }, (err, user) => {
                 if (err) return done(err);
 
                 if (!user) {

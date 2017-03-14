@@ -9,14 +9,11 @@ mongoose.Promise = Promise;
 let userSchema = Schema({
     f_name: String,
     l_name: String,
-    email: { type: String, unique: true},
+    email: String,
     username: { type: String, unique: true},
-    password: String
+    password: String,
+    timestamp: { type: Date, default: Date.now }
 });
-
-userSchema.query.byUsername = (username) => {
-    return this.findOne({ 'username': username });
-};
 
 userSchema.methods.generateHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null); 
