@@ -18,6 +18,7 @@ mongoose.Promise = Promise;
 // Load User Modules
 const loadControllers = require('./app/controllers/controllers');
 const buildPassport = require('./app/config/authorization');
+const initializeApis = require('./app/api/api');
 
 // Initailize app
 const app = express();
@@ -70,6 +71,7 @@ app.get('/', (req, res) => {
 // Dynamic Initializations
 buildPassport(passport);
 loadControllers(passport, app);
+initializeApis(app);
 
 app.listen(process.env.PORT, () => {
     console.log(

@@ -2,3 +2,20 @@
   margin-top: 20px; }
   .card .card-block {
     text-align: center; }
+
+.chart-container {
+  height: 90%;
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center; }
+
+canvas {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 100%;
+  width: 100%; }

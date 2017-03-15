@@ -47,13 +47,6 @@ gulp.task('browser-sync', ['nodemon'], function () {
     });
 });
 
-// gulp.task('js', function () {
-//     return gulp.src('public/**/*.js')
-//     // do stuff to JavaScript files
-//     //.pipe(uglify())
-//     //.pipe(gulp.dest('...'));
-// });
-
 gulp.task('sass', function () {
     console.log(chalk.bgMagenta.white('Sassifying...'));
     return gulp.src('public/sass/**/*.sass')
@@ -74,10 +67,6 @@ gulp.task('vendor-css', function () {
         .pipe(browserSync.reload({ stream: true }))
 });
 
-// gulp.task('css', function () {
-//     return gulp.src('public/css/**/*.css')
-//         .pipe(browserSync.reload({ stream: true }));
-// })
 
 gulp.task('bs-reload', function () {
     setTimeout(function () {

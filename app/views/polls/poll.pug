@@ -3,6 +3,8 @@ extends ../base.pug
 
 block links
     link(rel='stylesheet' href='/css/polls/poll.min.css')
+    script(src='/js/polls/poll.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js')
 
 block content
     .container.d-flex.align-items-center
@@ -10,7 +12,16 @@ block content
             h2.text-primary.display-4 #{poll.title}
             .chart-container
             hr.my-4
-            //- Put Chart Here
+
+            if success_messages.length > 0
+                .alert.alert-success #[strong Success!] #{success_messages}
+
+            if error_messages.length > 0
+                .alert.alert-danger #[strong Oops!] #{error_messages}
+
+            .col-sm-12.col-md-12.col-lg-12
+                .chart-container
+                    canvas(id=poll.url)
             hr.my-4
             form(action='/polls/' + poll.url, method='POST')
                 .form-group

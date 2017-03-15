@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Poll = require('../models/polls');
-const isAuthorized = require('../Utilities/checkUser');
-const validateNewPoll = require('../Utilities/validateNewPoll');
+const isAuthorized = require('../utilities/validateUser');
+const validateNewPoll = require('../utilities/validateNewPoll');
 const slugify = require('slugify');
 
 module.exports.controller = (passport, app) => {
@@ -37,6 +37,7 @@ module.exports.controller = (passport, app) => {
 
                 newPoll.title = req.body.title
                 newPoll.url = slugify(req.body.title);
+                newPoll.creator = req.user.username;
 
                 for (let option of req.body.options) {
                     let opt = {}
@@ -56,6 +57,54 @@ module.exports.controller = (passport, app) => {
         });
     });
 
+    app.post('/polls/:poll_slug', (req, res) => {
+        const choice = req.body.selection;
+        const userIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+
+        Poll.findOne({ url: req.params.poll_slug }, (err, poll) => {
+            if (err) throw err;
+            let newUser = true;
+            console.log(req.user);
+
+            for (let voted of poll.user_votes) {
+                if (req.user) {
+                    if (req.user.username === voted) {
+                        newUser = false;
+                    }
+                } else if (userIP === voted) {
+                    newUser = false;
+                }
+            }
+
+            console.log(newUser);
+
+            if (newUser) {
+                for (let option of poll.options) {
+                    if (option.text == choice) {
+                        option.count += 1;
+                        break;
+                    }
+                }
+
+                if (req.user) {
+                    poll.user_votes.push(req.user.username);
+                } else {
+                    poll.user_votes.push(userIP);
+                }
+
+
+                poll.save((err) => {
+                    req.flash('success_messages', 'You have Successfully Cast your Vote =]');
+                    res.redirect('/polls/' + req.params.poll_slug);
+                });
+            } else {
+                req.flash('error_messages', 'You Have Already Voted on this Poll !!!')
+                res.redirect('/polls/' + req.params.poll_slug);
+            }
+
+        });
+    });
+
     app.get('/polls/:poll_slug', (req, res) => {
         Poll.findOne({ url: req.params.poll_slug }, (err, poll) => {
             if (err) throw err;
@@ -63,9 +112,8 @@ module.exports.controller = (passport, app) => {
             res.render('polls/poll', {
                 user: req.user,
                 poll: poll
-            })
+            });
         });
-        
-    })
+    });
 
 }

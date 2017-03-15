@@ -51,7 +51,7 @@ module.exports = (passport) => {
                 if (err) return done(err);
 
                 if (!user) {
-                    return done(null, false, req.flash('error_messages', 'No User <' + username + '> was Found' ));
+                    return done(null, false, req.flash('error_messages', 'No User <' + username + '> was found' ));
                 }
 
                 if (!user.validPassword(password)) {

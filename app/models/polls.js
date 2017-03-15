@@ -12,6 +12,7 @@ let pollSchema = Schema({
         text: String,
         count: { type: Number, default: 0 }
     }],
+    creator: String,
     user_votes: [String],
     latest_timestamp: { type: Date, default: Date.now },
     timestamp: { type: Date, default: Date.now },

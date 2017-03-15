@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('../models/users');
-const checkRegistrationForm = require('../Utilities/validateRegistrationForm');
+const checkRegistrationForm = require('../utilities/validateRegistrationForm');
 
 module.exports.controller = (passport, app) => {
 
